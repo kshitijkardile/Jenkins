@@ -1,5 +1,15 @@
+```groovy
 pipeline {
     agent any
+
+    triggers {
+        cron('H/2 * * * *')
+    }
+
+    options {
+        skipDefaultCheckout(true)
+        timeout(time: 5, unit: 'MINUTES')
+    }
 
     stages {
         stage('Checkout') {
@@ -29,5 +39,9 @@ pipeline {
         failure {
             echo 'Pipeline failed. Check the console output.'
         }
+        aborted {
+            echo 'Pipeline was aborted or timed out.'
+        }
     }
 }
+```
